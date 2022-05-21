@@ -2,14 +2,19 @@ package com.test.crudsample.model;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jdk.nashorn.internal.objects.annotations.Constructor;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
-import lombok.ToString;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "customer")
 @ToString
+@Getter
+@Setter
+@NoArgsConstructor
 public class Customer {
 
     @Id
@@ -30,41 +35,5 @@ public class Customer {
     @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     @JsonManagedReference
     private List<Order> orderList;
-
-    public List<Order> getOrderList() {
-        return orderList;
-    }
-
-    public Customer() {
-        super();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
 }
