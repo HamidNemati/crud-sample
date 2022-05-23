@@ -31,7 +31,7 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "customer", targetEntity = Order.class)
+    @OneToMany(mappedBy = "customer", targetEntity = Order.class, fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     @JsonManagedReference
     private List<Order> orderList;
