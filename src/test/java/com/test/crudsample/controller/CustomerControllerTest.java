@@ -1,5 +1,6 @@
 package com.test.crudsample.controller;
 
+import com.test.crudsample.exception.ResourceNotFoundException;
 import com.test.crudsample.model.Customer;
 import com.test.crudsample.repository.CustomerRepository;
 import org.junit.After;
@@ -13,12 +14,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class CustomerControllerTest {
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CustomerController customerController;
 
     private Customer persistedCustomer;
 
@@ -30,7 +35,7 @@ public class CustomerControllerTest {
 
     @Test
     public void getAllTest() {
-        Assertions.assertEquals(17, customerRepository.findAll().size());
+        Assertions.assertEquals(14, customerRepository.findAll().size());
     }
 
     @Before
@@ -59,8 +64,35 @@ public class CustomerControllerTest {
 
     @Test
     public void getByIdTest () {
-        Customer fetched = customerRepository.getById(persistedCustomer.getId());
+        Customer fetched = customerRepository.findAll().stream().filter(c -> c.getId() == persistedCustomer.getId()).collect(Collectors.toList()).get(0);
+
         Assertions.assertNotNull(fetched);
-        Assertions.assertEquals(persistedCustomer, fetched);
+        Assertions.assertEquals(persistedCustomer.getId(), fetched.getId());
+        Assertions.assertEquals(persistedCustomer.getFirstName(), fetched.getFirstName());
+        Assertions.assertEquals(persistedCustomer.getLastName(), fetched.getLastName());
+        Assertions.assertEquals(persistedCustomer.getEmail(), fetched.getEmail());
     }
+
+    @Test
+    public void updateCustomerTest() {
+        Customer customerInfo = new Customer();
+        customerInfo.setLastName("edited");
+        customerInfo.setLastName("edited");
+        customerInfo.setEmail("edited");
+
+        try {
+            customerController.updateCustomer(persistedCustomer.getId(), customerInfo);
+
+            Customer fetched = customerRepository.findAll().stream().filter(c -> c.getId() == persistedCustomer.getId()).collect(Collectors.toList()).get(0);
+
+            Assertions.assertNotNull(fetched);
+
+            Assertions.assertEquals(customerInfo.getFirstName(), fetched.getFirstName());
+            Assertions.assertEquals(customerInfo.getLastName(), fetched.getLastName());
+            Assertions.assertEquals(customerInfo.getEmail(), fetched.getEmail());
+        } catch (ResourceNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
