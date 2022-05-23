@@ -51,6 +51,7 @@ public class OrderController {
         order.setCustomer(orderInfo.getCustomer());
         order.setStatus(orderInfo.getStatus());
         order.setTotalCost(orderInfo.getTotalCost());
+        order.setCreatedAt(orderInfo.getCreatedAt());
 
         return ResponseEntity.ok().body(orderRepository.save(order));
     }
