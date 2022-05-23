@@ -45,8 +45,8 @@ public class PersonalInfoController {
 
     // edit personal info by customer id
     @PutMapping("/{id}")
-    public ResponseEntity editPersonalInfo(@PathVariable(value = "id")Long customerId, @RequestBody PersonalInfo newPersonalInfo) {
-        PersonalInfo personalInfo = this.personalInfoRepository.getById(customerId);
+    public ResponseEntity updatePersonalInfo(@PathVariable(value = "id")Long customerId, @RequestBody PersonalInfo newPersonalInfo) {
+        PersonalInfo personalInfo = this.personalInfoRepository.findById(customerId).get();
         personalInfo.setAddress(newPersonalInfo.getAddress());
         personalInfo.setCustomer(newPersonalInfo.getCustomer());
         personalInfo.setEmail(newPersonalInfo.getEmail());
