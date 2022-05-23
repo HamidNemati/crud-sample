@@ -1,12 +1,10 @@
 package com.test.crudsample.controller;
 
 import com.test.crudsample.exception.ResourceNotFoundException;
-import com.test.crudsample.model.Customer;
 import com.test.crudsample.model.Order;
 import com.test.crudsample.repository.CustomerRepository;
 import com.test.crudsample.repository.OrderRepository;
 import com.test.crudsample.resource.enums;
-import org.apache.tomcat.jni.Time;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
